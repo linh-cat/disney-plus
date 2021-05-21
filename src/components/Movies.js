@@ -25,6 +25,7 @@ function Movies() {
 
 const Container = styled.div`
   margin-top: 10px;
+  padding: 30px 0px 26px;
   h4 {
     margin-bottom: 10px;
   }
@@ -50,7 +51,7 @@ const Wrap = styled.div`
     object-fit: cover;
   }
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
     border: 3px solid rgba(249, 249, 249, 0.9);
     transition: all 250ms cubic-bezier(0.25, 0.25, 0.25, 0.25);
   }
