@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
+import db from "./firebase";
 
 function Detail() {
+  const history = useHistory();
+  const { id } = useParams();
+  const [movie, setMovie] = useState();
+
+  useEffect(() => {
+    db.collection("movies")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setMovie(doc.data());
+        } else {
+          // history.push("/");
+        }
+      });
+  }, []);
+
+  console.log(movie);
+
   return (
     <Container>
       <Background>
-        <img src="/images/background__detail.jpg" />
+        <img src={movie && movie?.backgroundImg} />
       </Background>
       <ImageTitle>
         <img src="/images/image__title.png" />
@@ -24,12 +45,8 @@ function Detail() {
           <img src="/images/group-icon.png" />
         </GroupButton>
       </Controls>
-      <SubTitle>2020 - 7m - Family, Fanta, Kids, Animation</SubTitle>
-      <Description>
-        Lorem Ipsum has been the industry's standard dummy text ever since the
-        1500s, when an unknown printer took a galley of type and scrambled it to
-        make a type specimen book.
-      </Description>
+      <SubTitle>{movie && movie?.subTitle}</SubTitle>
+      <Description>{movie && movie?.description}</Description>
     </Container>
   );
 }
@@ -101,6 +118,7 @@ const AddButton = styled.button`
   color: #fff;
   background: rgba(0, 0, 0, 0.5);
   margin-right: 20px;
+  cursor: pointer;
 `;
 const GroupButton = styled.button`
   width: 44px;
@@ -108,6 +126,7 @@ const GroupButton = styled.button`
   border-radius: 50%;
   border: 1px solid #fff;
   background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 `;
 
 const SubTitle = styled.div`
